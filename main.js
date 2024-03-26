@@ -3,7 +3,7 @@
 if (typeof (Storage) !== "undefined") {
     // If the counter is not set in localStorage, initialize it to 0
     if (!localStorage.profileViews) {
-        localStorage.profileViews = 0;
+        localStorage.profileViews = 234;
     }
 
     // Increment the counter and update localStorage
