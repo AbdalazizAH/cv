@@ -1,53 +1,132 @@
+
+
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ar">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Curriculum Vitae</title>
-    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
-    <link rel="stylesheet" href="styles.css">
+    <title>عرض البيانات من API</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f8ff;
+            direction: rtl;
+            text-align: right;
+        }
+
+        .container {
+            width: 80%;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        h1 {
+            text-align: center;
+            color: #0048a7;
+        }
+
+        .item-card {
+            background-color: #abdfff;
+            border: 1px solid #0048a7;
+            padding: 15px;
+            margin-bottom: 15px;
+            border-radius: 10px;
+            position: relative;
+        }
+
+        .item-card h3 {
+            color: #00224f;
+        }
+
+        .item-card p {
+            color: #0048a7;
+            word-wrap: break-word;
+        }
+
+        .copy-btn {
+            background-color: #0048a7;
+            color: white;
+            border: none;
+            padding: 5px 10px;
+            border-radius: 5px;
+            cursor: pointer;
+            position: absolute;
+            top: 10px;
+            left: 10px;
+        }
+
+        .copy-btn:hover {
+            background-color: #00224f;
+        }
+
+        .fetch-btn {
+            display: block;
+            margin: 20px auto;
+            padding: 10px 20px;
+            background-color: #0048a7;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .fetch-btn:hover {
+            background-color: #00224f;
+        }
+    </style>
 </head>
 <body>
-    <div class="container mt-5">
-        <h1 class="text-center mb-4">Curriculum Vitae  CV</h1>
-        <div class="section">
-            <h2>Personal Information</h2>
-            <ul>
-                <li><i class="fas fa-user"></i> Abd-alaziz Ahmed</li>
-                <li><i class="fas fa-envelope"></i> <a href="mailto:abdalazizly97@gmail.com">abdalazizly@gmail.com</a></li>
-                <li><i class="fas fa-phone"></i> +218928382999</li>
-            </ul>
-        </div>
 
-        <div class="section">
-            <h2>Education</h2>
-            <ul>
-                <li><i class="fas fa-graduation-cap"></i> Bachelor's Degree in Petroleum Engineering</li>
-                <li><i class="fas fa-university"></i> University of Tripoli, 2024</li>
-            </ul>
-        </div>
+<div class="container">
+    <h1>عرض البيانات من API</h1>
+    <button class="fetch-btn" onclick="fetchData()">عرض البيانات</button>
+    <div id="items-container"></div>
+</div>
 
-        <div class="section">
-            <h2>Professional Experience</h2>
-            <ul>
-                <li><i class="fas fa-code"></i> Worked with the following software: KAPPA, PIPSIM, PROSPER, as well as conceptualizing other software ideas.</li>
-                <li><i class="fas fa-tools"></i> Experience with MS Office  ...  </li>
-            </ul>
-        </div>
+<script>
+    function fetchData() {
+        fetch('https://fastapi-project-jyh0i04bt-abdalazizahs-projects.vercel.app/items/')
+            .then(response => response.json())
+            .then(data => {
+                const container = document.getElementById('items-container');
+                container.innerHTML = '';  // إفراغ المحتوى قبل عرض البيانات
 
-        <div class="section">
-            <h2>Skills</h2>
-            <ul>
-                <li><i class="fas fa-laptop-code"></i> Programming Language: Python, and data analysis libraries.</li>
-                <li><i class="fas fa-award"></i> Achievements: Worked on multiple projects including a distinguished engineering graduation project.</li>
-                <p>Total Views: <span id="counter">0</span></p>
-            </ul>
-        </div>
-    </div>
+                data.forEach(item => {
+                    const itemCard = document.createElement('div');
+                    itemCard.classList.add('item-card');
 
+                    const nameElement = document.createElement('h3');
+                    nameElement.textContent = `اسم العنصر: ${item.name}`;
 
-    <script src="https://kit.fontawesome.com/a076d05399.js"></script>
-    <script src="main.js"></script>
+                    const descriptionElement = document.createElement('p');
+                    descriptionElement.textContent = `المفتاح المشفر: ${item.description}`;  
+
+                    const copyBtn = document.createElement('button');
+                    copyBtn.classList.add('copy-btn');
+                    copyBtn.textContent = 'نسخ المفتاح';
+                    copyBtn.onclick = () => copyToClipboard(item.description); 
+
+                    itemCard.appendChild(nameElement);
+                    itemCard.appendChild(descriptionElement);
+                    itemCard.appendChild(copyBtn);
+
+                    container.appendChild(itemCard);
+                });
+            })
+            .catch(error => console.error('خطأ في جلب البيانات:', error));
+    }
+
+    function copyToClipboard(text) {
+        // نسخ النص المشفر إلى الحافظة
+        const tempInput = document.createElement('input');
+        document.body.appendChild(tempInput);
+        tempInput.value = text;  
+        tempInput.select();
+        document.execCommand('copy');
+        document.body.removeChild(tempInput);
+        alert('تم نسخ المفتاح المشفر: ' + text);
+    }
+</script>
+
 </body>
 </html>
