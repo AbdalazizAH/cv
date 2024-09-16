@@ -85,7 +85,12 @@
 
 <script>
     function fetchData() {
-        fetch('https://fastapi-project-jyh0i04bt-abdalazizahs-projects.vercel.app/items/?vercelToolbarCode=0dUYSt6_7cIOFvE')
+        fetch('https://fastapi-project-jyh0i04bt-abdalazizahs-projects.vercel.app/items/', {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        })
             .then(response => response.json())
             .then(data => {
                 const container = document.getElementById('items-container');
