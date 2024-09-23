@@ -1,123 +1,212 @@
 <!DOCTYPE html>
-<html lang="ar">
+<html lang="ar" dir="rtl">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>اضافة معاملة جديدة</title>
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
     <style>
-:root {
-    --primary-color: #6d28d9;
-    --secondary-color: #4c1d95;
-    --background-color: #f3f4f6;
-    --text-color: #1f2937;
-    --hover-color: #5b21b6;
-    --card-bg: #ffffff;
-    --border-color: #d1d5db;
-}
+        :root {
+            --primary-color: #6d28d9;
+            --secondary-color: #4c1d95;
+            --background-color: #f3f4f6;
+            --text-color: #1f2937;
+            --hover-color: #5b21b6;
+            --card-bg: #ffffff;
+            --border-color: #d1d5db;
+            --neumorphic-light: #ffffff;
+            --neumorphic-dark: #d1d9e6;
+        }
 
-body {
-    font-family: 'Inter', sans-serif;
-    background-color: var(--background-color);
-    color: var(--text-color);
-    transition: background-color 0.3s, color 0.3s;
-}
+        .dark-mode {
+            --primary-color: #8b5cf6;
+            --secondary-color: #7c3aed;
+            --background-color: #1f2937;
+            --text-color: #f3f4f6;
+            --hover-color: #6d28d9;
+            --card-bg: #374151;
+            --border-color: #4b5563;
+            --neumorphic-light: #2d3748;
+            --neumorphic-dark: #1a202c;
+        }
 
-.container {
-    width: 90%; /* Use a percentage for width */
-    max-width: 800px; 
-    margin: 30px auto; /* Reduced top margin */
-    background-color: var(--card-bg);
-    padding: 20px;
-    border-radius: 8px;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-}
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--background-color);
+            color: var(--text-color);
+            transition: background-color 0.3s, color 0.3s;
+        }
 
-h1 {
-    font-size: 2rem;
-    margin-bottom: 1.5rem;
-    color: var(--secondary-color); 
-    text-align: center;
-}
+        .container {
+            width: 90%;
+            max-width: 800px;
+            margin: 30px auto;
+            background-color: var(--card-bg);
+            padding: 20px;
+            border-radius: 16px;
+            box-shadow: 
+                20px 20px 60px var(--neumorphic-dark),
+                -20px -20px 60px var(--neumorphic-light);
+            animation: fadeIn 0.5s ease-out;
+        }
 
-label {
-    font-weight: 600;
-    margin-bottom: 0.5rem;
-    display: block;
-}
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
 
-input, select {
-    width: 100%;
-    padding: 0.75rem 1rem; 
-    margin-bottom: 1rem; /* Reduced margin */
-    border: 1px solid var(--border-color);
-    border-radius: 8px;
-    transition: all 0.3s;
-}
+        h1 {
+            font-size: 2rem;
+            margin-bottom: 1.5rem;
+            color: var(--secondary-color);
+            text-align: center;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
+        }
 
-input:focus, select:focus {
-    outline: none;
-    border-color: var(--primary-color);
-    box-shadow: 0 0 0 3px rgba(109, 40, 217, 0.2);
-}
+        label {
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            display: block;
+            transition: color 0.3s;
+        }
 
-button {
-    width: 100%;
-    padding: 0.75rem 1rem;
-    background-color: var(--primary-color);
-    color: white;
-    border: none;
-    border-radius: 8px;
-    font-size: 1rem;
-    font-weight: 600;
-    cursor: pointer;
-    transition: background-color 0.3s, transform 0.3s;
-}
+        input, select {
+            width: 100%;
+            padding: 0.75rem 1rem;
+            margin-bottom: 1rem;
+            border: none;
+            border-radius: 8px;
+            transition: all 0.3s;
+            background-color: var(--background-color);
+            color: var(--text-color);
+            box-shadow: 
+                inset 2px 2px 5px var(--neumorphic-dark),
+                inset -2px -2px 5px var(--neumorphic-light);
+        }
 
-button:hover {
-    background-color: var(--hover-color);
-    transform: translateY(-2px);
-}
+        input:focus, select:focus {
+            outline: none;
+            box-shadow: 
+                inset 4px 4px 8px var(--neumorphic-dark),
+                inset -4px -4px 8px var(--neumorphic-light);
+            transform: scale(1.02);
+        }
 
-.error {
-    color: red;
-    margin-bottom: 1rem;
-}
+        button {
+            width: 100%;
+            padding: 0.75rem 1rem;
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            box-shadow: 
+                4px 4px 8px var(--neumorphic-dark),
+                -4px -4px 8px var(--neumorphic-light);
+        }
 
-.success {
-    color: green;
-    margin-bottom: 1rem;
-}
+        button:hover {
+            background-color: var(--hover-color);
+            transform: translateY(-2px);
+            box-shadow: 
+                6px 6px 12px var(--neumorphic-dark),
+                -6px -6px 12px var(--neumorphic-light);
+        }
 
+        button:active {
+            transform: scale(0.98);
+            box-shadow: 
+                2px 2px 4px var(--neumorphic-dark),
+                -2px -2px 4px var(--neumorphic-light);
+        }
 
-@media (max-width: 768px) { 
-    h1 {
-        font-size: 1.75rem; /* Adjust h1 size for smaller screens */
-    }
-    label {
-        font-size: 0.9rem; /* Slightly smaller label text */
-    }
-    input, select {
-        font-size: 0.9rem; /* Adjust input/select text */
-        padding: 0.6rem 0.8rem;
-    }
-    button {
-        font-size: 0.9rem; /* Adjust button text */
-        padding: 0.6rem 0.8rem; 
-    }
+        .error, .success {
+            margin-bottom: 1rem;
+            padding: 0.5rem;
+            border-radius: 8px;
+            text-align: center;
+            font-weight: 600;
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
 
-}
+        .error {
+            background-color: #FEE2E2;
+            color: #DC2626;
+        }
+
+        .success {
+            background-color: #D1FAE5;
+            color: #059669;
+        }
+
+        .show-message {
+            opacity: 1;
+        }
+
+        .dark-mode-toggle {
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            background-color: var(--card-bg);
+            border: none;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.3s;
+            box-shadow: 
+                2px 2px 5px var(--neumorphic-dark),
+                -2px -2px 5px var(--neumorphic-light);
+        }
+
+        .dark-mode-toggle:hover {
+            transform: scale(1.1);
+        }
+
+        .dark-mode-toggle i {
+            font-size: 1.2rem;
+            color: var(--text-color);
+        }
+
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 1.75rem;
+            }
+            label {
+                font-size: 0.9rem;
+            }
+            input, select {
+                font-size: 0.9rem;
+                padding: 0.6rem 0.8rem;
+            }
+            button {
+                font-size: 0.9rem;
+                padding: 0.6rem 0.8rem;
+            }
+        }
     </style>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css">
 </head>
 <body>
-    <div class="container">
+    <button class="dark-mode-toggle" id="darkModeToggle">
+        <i class="fas fa-moon"></i>
+    </button>
+    <div class="container animate__animated animate__fadeIn">
         <h1>اضافة معاملة</h1>
         <form id="addTransactionForm">
-            <label for="name">اسم الزبون</label>
-            <input type="text" id="name" name="name" value="ail" required>
+            <label for="customer_name">اسم الزبون</label>
+            <input type="text" id="customer_name" name="customer_name" required>
             
-            <label for="customer_name">المستلم</label>
-            <input type="text" id="customer_name" name="customer_name" value="ail" required>
+            <label for="name">المستلم</label>
+            <input type="text" id="name" name="name" required>
             
             <label for="country">البلد</label>
             <select id="country" name="country" required>
@@ -126,6 +215,7 @@ button:hover {
                 <option value="دولار">دولار</option>
                 <option value="يورو">يورو</option>
             </select>
+
             <label for="city">المدينة</label>
             <input type="text" id="city" name="city" required>
             
@@ -134,39 +224,84 @@ button:hover {
                 <option value="صرف">صرف</option>
                 <option value="قبض">قبض</option>
             </select>
+
             <label for="value">القيمة</label>
             <input type="number" id="value" name="value" required>
 
             <label for="price">السعر</label>
-            <input  id="price" name="price" required>
-
+            <input id="price" type="number" step="0.000001" name="price" required>
 
             <label for="commission_type">نوع العوملة</label>
             <select id="commission_type" name="commission_type" required>
                 <option value="يدوي">يدوي</option>
                 <option value="نسبه">نسبه</option>
             </select>
+
             <label for="commission_rate">العوملة</label>
-            <input type="number" id="commission_rate" name="commission_rate" required>
-            
+            <input type="number" step="any" id="commission_rate" name="commission_rate" required>
 
-            
-            
+            <button type="submit" class="animate__animated animate__pulse">إرسال</button>
 
-            <button type="submit">Submit</button>
-
-            <div id="errorMessage" class="error" style="display: none;">حدث خطاء.</div>
-            <div id="successMessage" class="success" style="display: none;">تم اضافة المعاملة</div>
+            <div id="errorMessage" class="error">حدث خطأ.</div>
+            <div id="successMessage" class="success">تم اضافة المعاملة</div>
         </form>
-        <div style= text-align:center; padding-top:2px color:green ><a href="index.html" >عرض البيانات </a></div>
+        <div style="text-align:center; padding-top:2px; color:var(--primary-color);">
+            <a href="index.html" class="hover:underline transition-all duration-300">عرض البيانات</a>
+        </div>
     </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js"></script>
     <script>
         const form = document.getElementById('addTransactionForm');
         const errorMessage = document.getElementById('errorMessage');
         const successMessage = document.getElementById('successMessage');
+        const submitButton = form.querySelector('button[type="submit"]');
+        const darkModeToggle = document.getElementById('darkModeToggle');
+
+        // Dark mode toggle
+        darkModeToggle.addEventListener('click', () => {
+            document.body.classList.toggle('dark-mode');
+            const icon = darkModeToggle.querySelector('i');
+            icon.classList.toggle('fa-moon');
+            icon.classList.toggle('fa-sun');
+        });
+
+        // Dynamic commission rate field visibility
+        const commissionTypeSelect = document.getElementById('commission_type');
+        const commissionRateField = document.getElementById('commission_rate').parentNode;
+
+        commissionTypeSelect.addEventListener('change', function() {
+            if (this.value === 'نسبه') {
+                commissionRateField.style.display = 'block';
+                anime({
+                    targets: commissionRateField,
+                    opacity: [0, 1],
+                    translateY: [20, 0],
+                    duration: 500,
+                    easing: 'easeOutQuad'
+                });
+            } else {
+                anime({
+                    targets: commissionRateField,
+                    opacity: 0,
+                    translateY: 20,
+                    duration: 500,
+                    easing: 'easeOutQuad',
+                    complete: function() {
+                        commissionRateField.style.display = 'none';
+                    }
+                });
+            }
+        });
+
+        // Auto-calculate commission based on value and rate
+
 
         form.addEventListener('submit', async (e) => {
             e.preventDefault();
+
+            submitButton.innerHTML = '<i class="fas fa-spinner fa-spin"></i> جاري الإرسال...';
+            submitButton.disabled = true;
 
             const formData = {
                 commission_type: document.getElementById('commission_type').value,
@@ -175,7 +310,7 @@ button:hover {
                 country: document.getElementById('country').value,
                 city: document.getElementById('city').value,
                 value: parseFloat(document.getElementById('value').value),
-                price:parseFloat(document.getElementById('price').value),
+                price: parseFloat(document.getElementById('price').value),
                 customer_name: document.getElementById('customer_name').value,
                 commission_rate: parseFloat(document.getElementById('commission_rate').value),
             };
@@ -192,22 +327,49 @@ button:hover {
 
                 if (response.ok) {
                     const data = await response.json();
-                    successMessage.style.display = 'block';
-                    errorMessage.style.display = 'none';
+                    successMessage.classList.add('show-message');
+                    errorMessage.classList.remove('show-message');
                     form.reset();
                     console.log('Success:', data);
+
+                    anime({
+                        targets: successMessage,
+                        scale: [0.9, 1],
+                        opacity: [0, 1],
+                        duration: 1000,
+                        easing: 'easeOutElastic(1, .5)'
+                    });
                 } else {
                     const errorData = await response.json();
                     throw new Error(JSON.stringify(errorData));
                 }
             } catch (error) {
                 console.error('Error:', error);
-                errorMessage.style.display = 'block';
-                errorMessage.innerHTML = 'Error submitting the form: ' + error.message;
-                successMessage.style.display = 'none';
+                errorMessage.classList.add('show-message');
+                errorMessage.innerHTML = 'خطأ في إرسال النموذج: ' + error.message;
+                successMessage.classList.remove('show-message');
+
+                anime({
+                    targets: errorMessage,
+                    translateX: [-10, 10, -10, 10, 0],
+                    duration: 500,
+                    easing: 'easeInOutQuad'
+                });
+            } finally {
+                submitButton.innerHTML = 'إرسال';
+                submitButton.disabled = false;
             }
         });
-    </script>
 
+        // Background animation
+        anime({
+            targets: '.container',
+            backgroundColor: ['hsl(230, 50%, 95%)', 'hsl(230, 50%, 90%)', 'hsl(230, 50%, 95%)'],
+            duration: 10000,
+            direction: 'alternate',
+            loop: true,
+            easing: 'easeInOutQuad'
+        });
+    </script>
 </body>
-</html> 
+</html>
