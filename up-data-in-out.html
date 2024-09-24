@@ -198,45 +198,15 @@
 <body>
 
     <div class="container animate__animated animate__fadeIn">
-        <h1>اضافة معاملة</h1>
-        <form id="addTransactionForm">
-            <label for="customer_name">اسم الزبون</label>
-            <input type="text" id="customer_name" name="customer_name" required>
-            
-            <label for="name">المستلم</label>
-            <input type="text" id="name" name="name" required>
-            
-            <label for="country">البلد</label>
-            <select id="country" name="country" required>
-                <option value="تونسي">تونسي</option>
-                <option value="مصري">مصري</option>
-                <option value="دولار">دولار</option>
-                <option value="يورو">يورو</option>
-            </select>
+        <h1>ألغاء معاملات دخول وخروج</h1>
+        <form id="UpdataForm">
+            <label for="sheet_name">اسم الزبون</label>
+            <input type="text" id="sheet_name" name="sheet_name" required>
 
-            <label for="city">المدينة</label>
-            <input type="text" id="city" name="city" required>
-            
-            <label for="transaction_type">نوع العملية</label>
-            <select id="transaction_type" name="transaction_type" required>
-                <option value="صرف">صرف</option>
-                <option value="قبض">قبض</option>
-            </select>
+            <label for="transaction_id">رقم المعاملة</label>
+            <input type="number" id="transaction_id" name="transaction_id" required>
 
-            <label for="value">القيمة</label>
-            <input type="number" id="value" name="value" required>
 
-            <label for="price">السعر</label>
-            <input id="price" type="number" step="0.000001" name="price" required>
-
-            <label for="commission_type">نوع العوملة</label>
-            <select id="commission_type" name="commission_type" required>
-                <option value="يدوي">يدوي</option>
-                <option value="نسبه">نسبه</option>
-            </select>
-
-            <label for="commission_rate">العوملة</label>
-            <input type="number" step="any" id="commission_rate" name="commission_rate" required>
 
             <button type="submit" class="animate__animated animate__pulse">إرسال</button>
 
@@ -250,86 +220,78 @@
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js"></script>
     <script>
-        const form = document.getElementById('addTransactionForm');
-        const errorMessage = document.getElementById('errorMessage');
-        const successMessage = document.getElementById('successMessage');
-        const submitButton = form.querySelector('button[type="submit"]');
-        const darkModeToggle = document.getElementById('darkModeToggle');
+    const form = document.getElementById('UpdataForm');
+    const errorMessage = document.getElementById('errorMessage');
+    const successMessage = document.getElementById('successMessage');
+    const submitButton = form.querySelector('button[type="submit"]');
 
+    form.addEventListener('submit', async (e) => {
+        e.preventDefault();
 
-        form.addEventListener('submit', async (e) => {
-            e.preventDefault();
+        submitButton.innerHTML = '<i class="fas fa-spinner fa-spin"></i> جاري الإرسال...';
+        submitButton.disabled = true;
 
-            submitButton.innerHTML = '<i class="fas fa-spinner fa-spin"></i> جاري الإرسال...';
-            submitButton.disabled = true;
+        const formData = {
+            sheet_name: document.getElementById('sheet_name').value,
+            transaction_id: parseFloat(document.getElementById('transaction_id').value),
+    
+        };
+        const apiUrls = [
+            'https://fastapi-project-ten.vercel.app/api/v1/update-in-out-trans/',
+            'https://excle-fastapi-vercle.vercel.app/api/v1/update-trns-in-out-excl/'
+        ];
 
-            const formData = {
-                commission_type: document.getElementById('commission_type').value,
-                transaction_type: document.getElementById('transaction_type').value,
-                name: document.getElementById('name').value,
-                country: document.getElementById('country').value,
-                city: document.getElementById('city').value,
-                value: parseFloat(document.getElementById('value').value),
-                price: parseFloat(document.getElementById('price').value),
-                customer_name: document.getElementById('customer_name').value,
-                commission_rate: parseFloat(document.getElementById('commission_rate').value),
-            };
+        try {
+            const requests = apiUrls.map(url => 
+                fetch(url, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-API-Key': '1'  // Replace with your actual API key
+                    },
+                    body: JSON.stringify(formData)
+                })
+            );
 
+            const responses = await Promise.all(requests);
 
-            const apiUrls = [
-                'https://fastapi-project-ten.vercel.app/api/v1/add-trans/',
-                'https://excle-fastapi-vercle.vercel.app/api/v1/add-trns-excl/'
-            ];
-            try {
-                const requests = apiUrls.map(url => 
-                    fetch(url, {
-                        method: 'POST',
-                        headers: {
-                            'Content-Type': 'application/json',
-                            'X-API-Key': '1'  // Replace with your actual API key
-                        },
-                        body: JSON.stringify(formData)
-                    })
-                );
-
-                const responses = await Promise.all(requests);
-
-                const allSuccess = responses.every(response => response.ok);
-                
-                if (allSuccess) {
-                    successMessage.classList.add('show-message');
-                    errorMessage.classList.remove('show-message');
-                    form.reset();
-                    console.log('Success: Data sent to both APIs');
-
-                    anime({
-                        targets: successMessage,
-                        scale: [0.9, 1],
-                        opacity: [0, 1],
-                        duration: 1000,
-                        easing: 'easeOutElastic(1, .5)'
-                    });
-                } else {
-                    const errorData = await Promise.all(responses.map(response => response.json()));
-                    throw new Error(JSON.stringify(errorData));
-                }
-            } catch (error) {
-                console.error('Error:', error);
-                errorMessage.classList.add('show-message');
-                errorMessage.innerHTML = 'خطأ في إرسال النموذج إلى أحد الـ APIs: ' + error.message;
-                successMessage.classList.remove('show-message');
+            const allSuccess = responses.every(response => response.ok);
+            
+            if (allSuccess) {
+                successMessage.classList.add('show-message');
+                errorMessage.classList.remove('show-message');
+                form.reset();
+                console.log('Success: Data sent to both APIs');
 
                 anime({
-                    targets: errorMessage,
-                    translateX: [-10, 10, -10, 10, 0],
-                    duration: 500,
-                    easing: 'easeInOutQuad'
+                    targets: successMessage,
+                    scale: [0.9, 1],
+                    opacity: [0, 1],
+                    duration: 1000,
+                    easing: 'easeOutElastic(1, .5)'
                 });
-            } finally {
-                submitButton.innerHTML = 'إرسال';
-                submitButton.disabled = false;
+            } else {
+                const errorData = await Promise.all(responses.map(response => response.json()));
+                throw new Error(JSON.stringify(errorData));
             }
-        });
+        } catch (error) {
+            console.error('Error:', error);
+            errorMessage.classList.add('show-message');
+            errorMessage.innerHTML = 'خطأ في إرسال النموذج إلى أحد الـ APIs: ' + error.message;
+            successMessage.classList.remove('show-message');
+
+            anime({
+                targets: errorMessage,
+                translateX: [-10, 10, -10, 10, 0],
+                duration: 500,
+                easing: 'easeInOutQuad'
+            });
+        } finally {
+            submitButton.innerHTML = 'إرسال';
+            submitButton.disabled = false;
+        }
+    });
+
         // Background animation
         anime({
             targets: '.container',
@@ -342,3 +304,4 @@
     </script>
 </body>
 </html>
+
