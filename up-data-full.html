@@ -3,10 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>اضافة معاملة جديدة</title>
+    <title>إلغاء معاملة</title>
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css">
     <style>
+        @import url('https://fonts.googleapis.com/css2?family=Tajawal:wght@400;700&display=swap');
+
         :root {
             --primary-color: #6d28d9;
             --secondary-color: #4c1d95;
@@ -32,10 +35,11 @@
         }
 
         body {
-            font-family: 'Inter', sans-serif;
+            font-family: 'Tajawal', sans-serif;
             background-color: var(--background-color);
             color: var(--text-color);
             transition: background-color 0.3s, color 0.3s;
+            overflow-x: hidden;
         }
 
         .container {
@@ -43,12 +47,26 @@
             max-width: 800px;
             margin: 30px auto;
             background-color: var(--card-bg);
-            padding: 20px;
-            border-radius: 16px;
+            padding: 30px;
+            border-radius: 20px;
             box-shadow: 
                 20px 20px 60px var(--neumorphic-dark),
                 -20px -20px 60px var(--neumorphic-light);
             animation: fadeIn 0.5s ease-out;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .container::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, rgba(255,255,255,0) 70%);
+            transform: rotate(30deg);
+            pointer-events: none;
         }
 
         @keyframes fadeIn {
@@ -57,11 +75,22 @@
         }
 
         h1 {
-            font-size: 2rem;
-            margin-bottom: 1.5rem;
+            font-size: 2.5rem;
+            margin-bottom: 2rem;
             color: var(--secondary-color);
             text-align: center;
             text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
+            position: relative;
+        }
+
+        h1::after {
+            content: '';
+            display: block;
+            width: 50px;
+            height: 4px;
+            background-color: var(--primary-color);
+            margin: 10px auto;
+            border-radius: 2px;
         }
 
         label {
@@ -74,9 +103,9 @@
         input, select {
             width: 100%;
             padding: 0.75rem 1rem;
-            margin-bottom: 1rem;
+            margin-bottom: 1.5rem;
             border: none;
-            border-radius: 8px;
+            border-radius: 12px;
             transition: all 0.3s;
             background-color: var(--background-color);
             color: var(--text-color);
@@ -99,14 +128,36 @@
             background-color: var(--primary-color);
             color: white;
             border: none;
-            border-radius: 8px;
-            font-size: 1rem;
+            border-radius: 12px;
+            font-size: 1.1rem;
             font-weight: 600;
             cursor: pointer;
             transition: all 0.3s;
             box-shadow: 
                 4px 4px 8px var(--neumorphic-dark),
                 -4px -4px 8px var(--neumorphic-light);
+            position: relative;
+            overflow: hidden;
+        }
+
+        button::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(
+                120deg,
+                transparent,
+                rgba(255, 255, 255, 0.3),
+                transparent
+            );
+            transition: all 0.6s;
+        }
+
+        button:hover::before {
+            left: 100%;
         }
 
         button:hover {
@@ -126,12 +177,12 @@
 
         .error, .success {
             margin-bottom: 1rem;
-            padding: 0.5rem;
-            border-radius: 8px;
+            padding: 0.75rem;
+            border-radius: 12px;
             text-align: center;
             font-weight: 600;
             opacity: 0;
-            transition: opacity 0.3s;
+            transition: opacity 0.3s, transform 0.3s;
         }
 
         .error {
@@ -146,6 +197,7 @@
 
         .show-message {
             opacity: 1;
+            transform: translateY(0);
         }
 
         .dark-mode-toggle {
@@ -155,8 +207,8 @@
             background-color: var(--card-bg);
             border: none;
             border-radius: 50%;
-            width: 40px;
-            height: 40px;
+            width: 50px;
+            height: 50px;
             display: flex;
             align-items: center;
             justify-content: center;
@@ -165,40 +217,67 @@
             box-shadow: 
                 2px 2px 5px var(--neumorphic-dark),
                 -2px -2px 5px var(--neumorphic-light);
+            z-index: 1000;
         }
 
         .dark-mode-toggle:hover {
-            transform: scale(1.1);
+            transform: scale(1.1) rotate(15deg);
         }
 
         .dark-mode-toggle i {
-            font-size: 1.2rem;
+            font-size: 1.5rem;
             color: var(--text-color);
+            transition: transform 0.3s;
+        }
+
+        .dark-mode-toggle:hover i {
+            transform: rotate(-15deg);
         }
 
         @media (max-width: 768px) {
             h1 {
-                font-size: 1.75rem;
+                font-size: 2rem;
             }
             label {
-                font-size: 0.9rem;
+                font-size: 1rem;
             }
             input, select {
-                font-size: 0.9rem;
-                padding: 0.6rem 0.8rem;
+                font-size: 1rem;
+                padding: 0.7rem 0.9rem;
             }
             button {
-                font-size: 0.9rem;
-                padding: 0.6rem 0.8rem;
+                font-size: 1rem;
+                padding: 0.7rem 0.9rem;
             }
         }
+
+        .floating-shapes {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: -1;
+        }
+
+        .shape {
+            position: absolute;
+            background-color: var(--primary-color);
+            opacity: 0.1;
+            border-radius: 50%;
+        }
     </style>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css">
 </head>
 <body>
+    <div class="floating-shapes"></div>
+
+    <button class="dark-mode-toggle" id="darkModeToggle">
+        <i class="fas fa-moon"></i>
+    </button>
 
     <div class="container animate__animated animate__fadeIn">
-        <h1>ألغاء معاملات  </h1>
+        <h1>إلغاء معاملة</h1>
         <form id="UpdataForm">
             <label for="sheet_name">اسم الزبون</label>
             <input type="text" id="sheet_name" name="sheet_name" required>
@@ -206,15 +285,13 @@
             <label for="transaction_id">رقم المعاملة</label>
             <input type="number" id="transaction_id" name="transaction_id" required>
 
-
-
             <button type="submit" class="animate__animated animate__pulse">إرسال</button>
 
             <div id="errorMessage" class="error">حدث خطأ.</div>
-            <div id="successMessage" class="success">تم اضافة المعاملة</div>
+            <div id="successMessage" class="success">تم إلغاء المعاملة بنجاح</div>
         </form>
-        <div style="text-align:center; padding-top:2px; color:var(--primary-color);">
-            <a href="indxe.html" class="hover:underline transition-all duration-300">عرض البيانات</a>
+        <div style="text-align:center; padding-top:20px; color:var(--primary-color);">
+            <a href="index.html" class="hover:underline transition-all duration-300">عرض البيانات</a>
         </div>
     </div>
 
@@ -224,6 +301,46 @@
     const errorMessage = document.getElementById('errorMessage');
     const successMessage = document.getElementById('successMessage');
     const submitButton = form.querySelector('button[type="submit"]');
+    const darkModeToggle = document.getElementById('darkModeToggle');
+
+    // Dark mode toggle
+    darkModeToggle.addEventListener('click', () => {
+        document.body.classList.toggle('dark-mode');
+        const icon = darkModeToggle.querySelector('i');
+        if (document.body.classList.contains('dark-mode')) {
+            icon.classList.remove('fa-moon');
+            icon.classList.add('fa-sun');
+        } else {
+            icon.classList.remove('fa-sun');
+            icon.classList.add('fa-moon');
+        }
+    });
+
+    // Floating shapes animation
+    const floatingShapes = document.querySelector('.floating-shapes');
+    for (let i = 0; i < 20; i++) {
+        const shape = document.createElement('div');
+        shape.classList.add('shape');
+        shape.style.width = `${Math.random() * 50 + 10}px`;
+        shape.style.height = shape.style.width;
+        shape.style.left = `${Math.random() * 100}%`;
+        shape.style.top = `${Math.random() * 100}%`;
+        floatingShapes.appendChild(shape);
+
+        anime({
+            targets: shape,
+            translateX: () => anime.random(-200, 200),
+            translateY: () => anime.random(-200, 200),
+            scale: () => anime.random(0.5, 2),
+            easing: 'easeInOutQuad',
+            duration: () => anime.random(3000, 8000),
+            complete: function(anim) {
+                shape.style.left = `${Math.random() * 100}%`;
+                shape.style.top = `${Math.random() * 100}%`;
+                anim.restart();
+            }
+        });
+    }
 
     form.addEventListener('submit', async (e) => {
         e.preventDefault();
@@ -234,7 +351,6 @@
         const formData = {
             sheet_name: document.getElementById('sheet_name').value,
             transaction_id: parseFloat(document.getElementById('transaction_id').value),
-    
         };
         const apiUrls = [
             'https://fastapi-project-ten.vercel.app/api/v1/api/update-full-trans/',
@@ -247,7 +363,7 @@
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
-                        'X-API-Key': '1'  // Replace with your actual API key
+                        'X-API-Key': '1'
                     },
                     body: JSON.stringify(formData)
                 })
@@ -292,16 +408,36 @@
         }
     });
 
-        // Background animation
-        anime({
-            targets: '.container',
-            backgroundColor: ['hsl(230, 50%, 95%)', 'hsl(230, 50%, 90%)', 'hsl(230, 50%, 95%)'],
-            duration: 10000,
-            direction: 'alternate',
-            loop: true,
-            easing: 'easeInOutQuad'
+    // Background animation
+    anime({
+        targets: '.container',
+        backgroundColor: ['hsl(230, 50%, 95%)', 'hsl(230, 50%, 90%)', 'hsl(230, 50%, 95%)'],
+        duration: 10000,
+        direction: 'alternate',
+        loop: true,
+        easing: 'easeInOutQuad'
+    });
+
+    // Input field animation
+    const inputs = document.querySelectorAll('input, select');
+    inputs.forEach(input => {
+        input.addEventListener('focus', () => {
+            anime({
+                targets: input,
+                scale: 1.05,
+                duration: 300,
+                easing: 'easeOutQuad'
+            });
         });
+        input.addEventListener('blur', () => {
+            anime({
+                targets: input,
+                scale: 1,
+                duration: 300,
+                easing: 'easeOutQuad'
+            });
+        });
+    });
     </script>
 </body>
 </html>
-
